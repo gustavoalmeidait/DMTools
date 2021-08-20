@@ -18,41 +18,47 @@ class Mob:
         if numberOfLosses==0 :
             print("By CROM!! The mob holds strong!")
         else:
-             print("TRAGEDY! The mob suffers " + str(numberOfLosses) + " casualties!")
+            if self.alive()>0:
+                print("TRAGEDY! The mob suffers " + str(numberOfLosses) + " casualties!")
+            else:
+                print("THE DM FORCES HAD BEEN DEFEATED AGAAAAAAAIIIIIiiiiiiinnnnnnnnn.......")
         
         
 
     def Status(self):
-        print("The mob of " + self.Name + " has " + str(self.HP) + " pints of blood remaining.")
-        print(str(self.alive() ) +" creatures remain alive.")
-        print ("AC: " + str(self.AC))
+        if self.alive()>0: 
+            print(str(self.alive() ) +" creatures remain alive.")
+            print("The mob of " + self.Name + " has " + str(self.HP) + " pints of blood remaining.")
+            print ("AC: " + str(self.AC))
+        else:
+            print("The DM grumbles low....vengeance...fucking dices...not fair....")
 
     def TakeDamageArea(self, damage, area):
         print("The maniatics cause mayhem in a " + str.upper( area) + " area.")
         if area =="small":
             #Small hits 4 creatures
             i=0
-            while i<4:
+            while i<4 and self.alive()>0:
                 self.TakeDamage(damage)
                 i+=1
         
         if area=="medium":
             #Medium hits 8
             i=0
-            while i<8:
+            while i<8 and self.alive()>0:
                 self.TakeDamage(damage)
                 i+=1
         
         if area=="large":
         #Large hits 16
             i=0
-            while i<16:
+            while i<16 and self.alive()>0:
                 self.TakeDamage(damage)
                 i+=1
         
         if area=="huge":
             i=0
-            while i<32:
+            while i<32 and self.alive()>0:
                 self.TakeDamage(damage)
                 i+=1
             
@@ -63,7 +69,7 @@ atacantes= Mob("kobolds",10,3,14)
 atacantes.TakeDamage(4)
 atacantes.Status()
 print()
-atacantes.TakeDamageArea(1,"small")
+atacantes.TakeDamageArea(1,"huge")
 atacantes.Status()
 
 
