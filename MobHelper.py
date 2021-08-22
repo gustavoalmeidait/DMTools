@@ -1,11 +1,14 @@
 import random
 
-DiceRoll = lambda modifier: random.randrange(1,20) + modifier
-DiceRollAdvantage = lambda modifier : max([DiceRoll(modifier),DiceRoll(modifier)])
-DiceRollDisadvantage = lambda modifier : min([DiceRoll(modifier),DiceRoll(modifier)])
+DiceRoll = lambda dice,modifier: random.randrange(1,dice) + modifier
+DiceRollAdvantage = lambda modifier : max([DiceRoll(modifier),DiceRoll(20,modifier)])
+DiceRollDisadvantage = lambda modifier : min([DiceRoll(modifier),DiceRoll(20,modifier)])
 
 class Mob:
-    def __init__(self,name,numberOfMobs, individualMobHp, AC, will) -> None:
+    damageDieSize = 8
+    damageDices=1    
+
+    def __init__(self,name,numberOfMobs, individualMobHp, AC, will,damageDices, attackBonus) -> None:
         self.OriginalNumberOfMobs = numberOfMobs
         self.Name = name
         self.HP = numberOfMobs*individualMobHp+1
@@ -13,6 +16,8 @@ class Mob:
         self.AC = AC
         self.Will = will
         self.Defeated = False
+        self.damageDices= damageDices
+        self.AttackBonus= attackBonus
         print("A mob of " + self.Name + " has spawned!")
         print("It boasts " + str(self.alive()) + " strong.")
 
@@ -110,15 +115,29 @@ class Mob:
                 self.Defeated=True        
             else:
                 print("This' but a scratch.")
-            
+    
+    def DealDamage (self):
+        i=0
+        damageTotal =0
+        while i<self.damageDices:
+            damage = DiceRoll(self.damageDieSize,0)
+            damageTotal+= damage
+            i+=1
+        return damageTotal
+
+    def Attack(self):
+        attackRoll =DiceRoll(20,self.AttackBonus)
+        print("The mob attacks: " + str(attackRoll))
+        dmgRoll = self.DealDamage()
+        print("Damage done: " + str(dmgRoll))
         
-        
-atacantes= Mob("kobolds",10,3,14,-2)
+atacantes= Mob("kobolds",10,3,14,-2,3,4)
 
 atacantes.TakeDamage(4)
 atacantes.Status()
 print()
-atacantes.TakeDamageArea(1,"huge")
-atacantes.Status()
+# atacantes.TakeDamageArea(1,"huge")
+# atacantes.Status()
+atacantes.Attack()
 
 
