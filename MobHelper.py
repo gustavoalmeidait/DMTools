@@ -22,6 +22,7 @@ class Mob:
         print("It boasts " + str(self.alive()) + " strong.")
 
     alive= lambda self: int(self.HP/self.IndividualHP)
+    
     def TakeDamage(self, damage):
         print("The MurderHob....players...deal " + str(damage) + " damage.")
         previousDamage = int((self.HP) / self.IndividualHP) 
